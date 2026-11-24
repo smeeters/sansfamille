@@ -10,7 +10,7 @@
  *   COMMIT (confirmation) → renommage puis remove() de l'orphelin EN DERNIER (gel possible ensuite)
  *   CANCEL → supprime l'instance neuve, l'orphelin reste intact
  */
-penpot.ui.open('Reconnecter les orphelins', 'https://smeeters.github.io/sansfamille/index.html?v=3', { width: 460, height: 680 });
+penpot.ui.open('Reconnecter les orphelins', 'https://smeeters.github.io/sansfamille/ui-v3.html', { width: 460, height: 680 });
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const r3 = (v) => Math.round((v ?? 1) * 1000) / 1000;
