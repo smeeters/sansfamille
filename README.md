@@ -3,7 +3,7 @@
 Port du skill `penpot-reconnect-orphans` v0.9.4.
 
 ## Installation
-1. Servir le dossier (ex. `npx serve -l 4400 --cors .`).
+1. Publier le dossier à la racine d'un dépôt public avec GitHub Pages (ou servir en local, en remplaçant les URL absolues de manifest.json et plugin.js).
 2. Penpot → Plugins → Installer → `http://localhost:4400/manifest.json`.
 
 ## Usage
