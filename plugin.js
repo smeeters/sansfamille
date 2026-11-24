@@ -104,7 +104,7 @@ function matchVariant(orphan, rep) {
         if (!a || !b) { diffs.push(k + ':structure'); continue; }
         for (const f of Object.keys(a)) if (JSON.stringify(a[f]) !== JSON.stringify(b[f])) diffs.push(k + ':' + f);
       }
-      scored.push({ id: v.id, props: v.variantProps ?? null, n: diffs.length });
+      scored.push({ id: v.id, props: v.variantProps ?? null, n: diffs.length, diffs: diffs.slice(0, 8) });
     } catch (e) { scored.push({ id: v.id, n: 999 }); }
   }
   scored.sort((x, y) => x.n - y.n);

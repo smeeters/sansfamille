@@ -17,6 +17,9 @@
   .ok{background:#c9efd2}.warn{background:#ffe3a3}.ko{background:#f5b5b0}
   pre{white-space:pre-wrap;font-size:11px;background:#f7f7f7;color:#222;padding:6px;border-radius:4px;margin:6px 0 0;max-height:150px;overflow:auto}
   .act{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+  [hidden]{display:none!important}
+  details summary{cursor:pointer;margin-top:4px}
+  .cand{display:flex;gap:6px;align-items:center;justify-content:space-between;margin-top:4px;font-size:11px}
   .note{color:#666;font-size:11px;margin-top:8px}
 </style>
 </head>
@@ -43,7 +46,7 @@ $('#save').onclick = () => { $('#save').disabled = true; post({ cmd: 'save' }); 
 function render(data) {
   const s = data.summary;
   $('#sum').hidden = false;
-  $('#sum').innerHTML = `Page <b>${esc(s.page)}</b> · instances <b>${s.instances}</b> · racines orphelines <b>${s.orphanRoots}</b> · nœuds orphelins <b>${s.orphanNodes}</b> · reconnectables <b>${s.ready}</b><br>Librairies : ${s.connectedLibraries.map((l) => esc(l.name) + ' (' + l.components + ')').join(', ') || 'aucune'}`;
+  $('#sum').innerHTML = `Page <b>${esc(s.page)}</b> · instances <b>${s.instances}</b> · racines orphelines <b>${s.orphanRoots}</b> · nœuds orphelins <b>${s.orphanNodes}</b> · reconnectables <b>${s.ready}</b><br><details><summary>Librairies (${s.connectedLibraries.filter((l) => l.components > 0).length} avec composants)</summary>${s.connectedLibraries.filter((l) => l.components > 0).map((l) => esc(l.name) + ' (' + l.components + ')').join(', ') || 'aucune'}</details>`;
   rows = {};
   $('#list').innerHTML = '';
   data.rows.forEach((r) => {
@@ -53,7 +56,8 @@ function render(data) {
     d.id = 'row-' + r.id;
     const can = !!r.componentId;
     d.innerHTML = `<b>${esc(r.name)}</b><span class="tag ${tag(r.status)}">${r.status}</span>
-      ${r.variantInfo ? `<div>${r.variantInfo.variants} variantes · ${esc(JSON.stringify(r.variantInfo.chosen?.props ?? r.variantInfo.best?.[0]?.props ?? ''))}</div>` : ''}
+      ${r.variantInfo ? `<div>${r.variantInfo.variants} variantes. ${r.variantInfo.chosen ? 'Variante exacte : ' + esc(JSON.stringify(r.variantInfo.chosen.props)) : 'Aucune variante exacte (0 écart). Plus proches :'}</div>` : ''}
+      ${r.variantInfo && !r.variantInfo.chosen ? (r.variantInfo.best || []).map((b) => `<div class="cand"><span>${b.n} écart(s) · ${esc(JSON.stringify(b.props))}<br>${esc((b.diffs || []).slice(0, 4).join(', '))}</span><button data-pick="${b.id}">Utiliser</button></div>`).join('') + '<div class="note">« Utiliser » = choix manuel, hors garde-fou du skill : vérifiez le résultat visuellement avant de valider.</div>' : ''}
       <div class="act">
         <button data-a="preview" ${can ? '' : 'disabled'}>Aperçu du delta</button>
         <button data-a="build" class="pri" ${can ? '' : 'disabled'}>Reconstruire</button>
@@ -67,8 +71,13 @@ function render(data) {
     d.querySelectorAll('button[data-a]').forEach((b) => b.onclick = () => {
       const a = b.dataset.a;
       const pre = document.getElementById('out-' + r.id); pre.hidden = false;
-      if (a === 'build' || a === 'preview') { pre.textContent = 'Travail en cours…'; b.disabled = true; setTimeout(() => (b.disabled = !can), 4000); }
+      if (a === 'build' || a === 'preview') { pre.textContent = 'Travail en cours…'; b.disabled = true; setTimeout(() => (b.disabled = !r.componentId), 4000); }
       post({ cmd: a, id: r.id, componentId: r.componentId });
+    });
+    d.querySelectorAll('button[data-pick]').forEach((b) => b.onclick = () => {
+      r.componentId = b.dataset.pick;
+      d.querySelectorAll('button[data-a="preview"],button[data-a="build"]').forEach((x) => (x.disabled = false));
+      d.querySelectorAll('button[data-pick]').forEach((x) => (x.textContent = x === b ? 'Choisie ✓' : 'Utiliser'));
     });
     $('#list').appendChild(d);
   });
