@@ -1,26 +1,19 @@
 # Reconnecter les orphelins (plugin Penpot)
 
-Port du skill `penpot-reconnect-orphans` v0.9.4.
+Port du skill `penpot-reconnect-orphans` v0.9.4. Interface « Lanterne » reprise de « C'est les ténèbres ».
 
-## Installation
-1. Publier le dossier à la racine d'un dépôt public avec GitHub Pages (ou servir en local, en remplaçant les URL absolues de manifest.json et plugin.js).
-2. Penpot → Plugins → Installer → `http://localhost:4400/manifest.json`.
+## Fichiers à publier (racine du dépôt)
+`manifest.json`, `plugin-v5.js`, `ui-v5.html`, `ui-v5.css`, `ui-v5.js`, dossier `fonts/`.
+Pour forcer Penpot à recharger : renommer en `-v6` (manifest, plugin, ui). Ne jamais changer `"version"` du manifest (format du manifest, valeur 1).
 
 ## Usage
-1. « Sauvegarder une version » (filet de sécurité).
-2. « Scanner la page » : racines orphelines, match path+name, match de variante par signature.
-3. Par racine : « Aperçu du delta », puis « Reconstruire » (instance neuve + overrides : textes, icônes échangées, fills/strokes avec tokens, visibilité, opacité, police, layoutChild ; insérée à l'index de l'orphelin).
-4. Contrôler visuellement, puis « Valider » (supprime l'orphelin) ou « Annuler » (supprime l'instance neuve).
+1. Périmètre : **Page** (tout) ou **Sélection** (ce qui est sélectionné).
+2. « Sauvegarder une version », puis « Scanner ».
+3. Reconstruire : une racine, un composant (bouton du groupe) ou tout le lot. Le lot s'arrête à la première erreur.
+4. Contrôler à l'œil, puis « Valider » (supprime l'orphelin) ou « Annuler » (supprime l'instance neuve). « Valider le lot » supprime tout en une fois, les `remove()` en dernier.
 
-## Garde-fous repris du skill
-- Jamais de swap brut ni de detach.
-- Match exact exigé ; variantes choisies par signature (0 écart), variante liée ≠ demandée = STOP.
-- Racines orphelines uniquement ; parent dans un sous-arbre orphelin = refus.
-- Suppression de l'orphelin en dernier, jamais dans le même passage que l'insertion.
-- Structure divergente ou source introuvable : rien n'est modifié.
+## Garde-fous
+Jamais de swap brut ni de detach · match exact · variante par signature (0 écart) ou choix manuel signalé · racines orphelines uniquement · remplacement en étapes (insertion, vérification, suppression).
 
 ## Limites
-- Non testé dans Penpot : à essayer d'abord sur un clone, une racine à la fois.
-- Orphelins imbriqués : traités avec leur racine externe.
-- Tokens : seuls les fills/strokes avec `*RefId` sont repris (pas `shape.tokens`).
-
+Non validé : sous-instances échangées sur un original, orphelins imbriqués, thème. Le rayon, le padding et la police ne sont pas réappliqués.
