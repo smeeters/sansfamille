@@ -102,7 +102,7 @@ function matchVariant(orphan, rep) {
       for (const k of new Set([...T.keys(), ...V.keys()])) {
         const a = T.get(k), b = V.get(k);
         if (!a || !b) { diffs.push(k + ':structure'); continue; }
-        for (const f of Object.keys(a)) if (JSON.stringify(a[f]) !== JSON.stringify(b[f])) diffs.push(k + ':' + f);
+        for (const f of Object.keys(a)) if (JSON.stringify(a[f]) !== JSON.stringify(b[f])) diffs.push(k + ':' + f + ' orphelin=' + JSON.stringify(a[f]) + ' variante=' + JSON.stringify(b[f]));
       }
       scored.push({ id: v.id, props: v.variantProps ?? null, n: diffs.length, diffs: diffs.slice(0, 8) });
     } catch (e) { scored.push({ id: v.id, n: 999 }); }

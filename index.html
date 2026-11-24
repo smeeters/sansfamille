@@ -19,7 +19,7 @@
   .act{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
   [hidden]{display:none!important}
   details summary{cursor:pointer;margin-top:4px}
-  .cand{display:flex;gap:6px;align-items:center;justify-content:space-between;margin-top:4px;font-size:11px}
+  .cand{display:flex;flex-direction:column;gap:4px;align-items:flex-start;margin-top:6px;padding:6px;border:1px dashed #bbb;border-radius:4px;font-size:11px;word-break:break-word;overflow-wrap:anywhere}
   .note{color:#666;font-size:11px;margin-top:8px}
 </style>
 </head>
@@ -57,7 +57,7 @@ function render(data) {
     const can = !!r.componentId;
     d.innerHTML = `<b>${esc(r.name)}</b><span class="tag ${tag(r.status)}">${r.status}</span>
       ${r.variantInfo ? `<div>${r.variantInfo.variants} variantes. ${r.variantInfo.chosen ? 'Variante exacte : ' + esc(JSON.stringify(r.variantInfo.chosen.props)) : 'Aucune variante exacte (0 écart). Plus proches :'}</div>` : ''}
-      ${r.variantInfo && !r.variantInfo.chosen ? (r.variantInfo.best || []).map((b) => `<div class="cand"><span>${b.n} écart(s) · ${esc(JSON.stringify(b.props))}<br>${esc((b.diffs || []).slice(0, 4).join(', '))}</span><button data-pick="${b.id}">Utiliser</button></div>`).join('') + '<div class="note">« Utiliser » = choix manuel, hors garde-fou du skill : vérifiez le résultat visuellement avant de valider.</div>' : ''}
+      ${r.variantInfo && !r.variantInfo.chosen ? (r.variantInfo.best || []).map((b) => `<div class="cand"><div><b>${b.n} écart(s)</b> · ${esc(Object.entries(b.props || {}).map(([k, v]) => k + '=' + v).join(' · '))}${(b.diffs || []).map((x) => '<br>• ' + esc(x)).join('')}</div><button data-pick="${b.id}">Utiliser</button></div>`).join('') + '<div class="note">« Utiliser » = choix manuel, hors garde-fou du skill : vérifiez le résultat visuellement avant de valider.</div>' : ''}
       <div class="act">
         <button data-a="preview" ${can ? '' : 'disabled'}>Aperçu du delta</button>
         <button data-a="build" class="pri" ${can ? '' : 'disabled'}>Reconstruire</button>
