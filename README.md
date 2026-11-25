@@ -3,17 +3,15 @@
 Port du skill `penpot-reconnect-orphans` v0.9.4. Interface « Lanterne » reprise de « C'est les ténèbres ».
 
 ## Fichiers à publier (racine du dépôt)
-`manifest.json`, `plugin-v5.js`, `ui-v5.html`, `ui-v5.css`, `ui-v5.js`, dossier `fonts/`.
-Pour forcer Penpot à recharger : renommer en `-v6` (manifest, plugin, ui). Ne jamais changer `"version"` du manifest (format du manifest, valeur 1).
+`manifest.json`, `plugin-v7.js`, `ui-v7.html`, `ui-v7.css`, `ui-v7.js`, dossier `fonts/`.
+Pour forcer Penpot à recharger : renommer en `-v8` (manifest, plugin, ui) puis désinstaller / réinstaller le plugin. Ne jamais changer `"version"` du manifest (format du manifest, valeur 1).
+
+## Méthodes
+- **En place (défaut)** : la racine existante est reconnectée au bon composant. Même id, même parent, même index, mêmes interactions, pas de doublon. Étapes : valeurs enregistrées (fichier JSON) → sonde sur un clone (si la racine y est détruite ou mal liée : arrêt, rien n'est modifié) → `swapComponent` → valeurs réappliquées (textes, icônes, couleurs/tokens, visibilité, opacité, police, layoutChild) → vérification. Une version du fichier est enregistrée avant la première reconnexion.
+- **Remplacement (secours)** : instance neuve du bon composant, substituée à l'orphelin (nouvel id), orphelin masqué puis supprimé. À utiliser quand la sonde refuse la méthode en place.
 
 ## Usage
-1. Périmètre : **Page** (tout) ou **Sélection** (ce qui est sélectionné).
-2. « Sauvegarder une version », puis « Scanner ».
-3. Reconstruire : une racine, un composant (bouton du groupe) ou tout le lot. Le lot s'arrête à la première erreur.
-4. Contrôler à l'œil, puis « Valider » (supprime l'orphelin) ou « Annuler » (supprime l'instance neuve). « Valider le lot » supprime tout en une fois, les `remove()` en dernier.
-
-## Garde-fous
-Jamais de swap brut ni de detach · match exact · variante par signature (0 écart) ou choix manuel signalé · racines orphelines uniquement · remplacement en étapes (insertion, vérification, suppression).
+Périmètre Page ou Sélection → Scanner → Reconnecter (une racine, un composant, ou le lot), confirmation par 2e clic. Le lot s'arrête à la première erreur.
 
 ## Limites
-Non validé : sous-instances échangées sur un original, orphelins imbriqués, thème. Le rayon, le padding et la police ne sont pas réappliqués.
+Non validé : sous-instances échangées sur un original, orphelins imbriqués, thème. Le rayon, le padding et la police des variantes ne sont pas réappliqués. Le swap en place ne peut pas être annulé par le plugin : Ctrl+Z ou restauration de la version.
