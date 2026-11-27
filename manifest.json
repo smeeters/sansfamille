@@ -1,7 +1,0 @@
-{
-  "name": "Reconnecter les orphelins",
-  "description": "Reconnecte les instances de composants orphelines à leur librairie en préservant les contenus modifiés (textes, icônes, couleurs, tokens).",
-  "code": "https://smeeters.github.io/sansfamille/plugin-v7.js",
-  "version": 1,
-  "permissions": ["content:read", "content:write", "library:read", "allow:downloads"]
-}
