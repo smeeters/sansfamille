@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Reconnecter composant orphelin</title>
+<link rel="stylesheet" href="ui-v8.css">
+</head>
+<body>
+<header class="top">
+  <span class="name">Reconnecter composant orphelin</span>
+  <div class="norm" id="scope" role="group" aria-label="Périmètre">
+    <button data-s="page" aria-pressed="true" title="Toutes les racines orphelines de la page">Page<span class="sub">tout</span></button>
+    <button data-s="selection" aria-pressed="false" title="Seulement ce qui est sélectionné">Sélection<span class="sub">ciblé</span></button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="view">
+    <div class="norm" id="method" role="group" aria-label="Méthode" style="margin-left:0;align-self:flex-start">
+      <button data-m="inplace" aria-pressed="true" title="Reconnecte la racine existante : même id, même place, même mise en page. Sonde sur un clone avant.">En place<span class="sub">conserve la page</span></button>
+      <button data-m="replace" aria-pressed="false" title="Construit une instance neuve, la substitue à l'orphelin puis le supprime (nouvel id). Annulable.">Remplacement<span class="sub">annulable</span></button>
+    </div>
+    <div class="row">
+      <button id="scan" class="btn">1 · Lister les orphelins</button>
+      <button id="save" class="text-btn">Sauvegarder une version</button>
+    </div>
+    <label class="row sm" id="carefulRow" style="gap:8px" hidden><input type="checkbox" id="careful"> Mode prudent : masquer l'orphelin et attendre ma validation avant de le supprimer</label>
+    <div id="sum" class="card" hidden></div>
+    <div id="bar" class="card" hidden></div>
+    <div id="list"></div>
+    <div id="report" class="card" hidden></div>
+    <p class="sm">Tout se passe dans ce fichier : le plugin n'envoie rien à l'extérieur. Les valeurs de chaque orphelin sont enregistrées dans un fichier JSON local avant toute modification.</p>
+  </section>
+</main>
+<div id="toast" role="status" aria-live="polite"></div>
+<script src="ui-v8.js"></script>
+</body>
+</html>

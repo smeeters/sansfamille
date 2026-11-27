@@ -1,0 +1,12 @@
+{
+  "name": "Reconnecter composant orphelin",
+  "description": "Reconnecte les composants orphelins à leur bibliothèque en préservant les contenus modifiés (texte, icône, couleurs, tokens), avec aperçu avant / après, rapport et lot annulable. Aucune donnée n'est envoyée à l'extérieur.",
+  "code": "https://smeeters.github.io/sansfamille/plugin-v8.js",
+  "version": 1,
+  "permissions": [
+    "content:read",
+    "content:write",
+    "library:read",
+    "allow:downloads"
+  ]
+}
