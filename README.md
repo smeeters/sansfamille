@@ -3,6 +3,12 @@
 Port du skill `penpot-reconnect-orphans` v0.9.4. Interface « Lanterne » (reprise de « C'est les ténèbres »), en français.
 Aucune donnée n'est envoyée à l'extérieur : le code ne contient aucun appel réseau (vérifié par recherche de `fetch`, `XMLHttpRequest`, `WebSocket`, `sendBeacon`). Les seules URL sont celles de l'hébergement du plugin lui-même.
 
+## Lien d'installation (à coller dans Penpot)
+```
+https://smeeters.github.io/sansfamille/manifest.json
+```
+Penpot → Plugins → Installer depuis une URL.
+
 ## Fichiers à publier (racine du dépôt)
 `manifest.json`, `plugin-v8.js`, `ui-v8.html`, `ui-v8.css`, `ui-v8.js`, dossier `fonts/`.
 Pour forcer Penpot à recharger : renommer en `-v9` (manifest, plugin, ui), désinstaller puis réinstaller. Ne jamais changer `"version"` du manifest (format du manifest, valeur 1).

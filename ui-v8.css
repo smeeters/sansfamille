@@ -79,3 +79,4 @@ ul.lines li.ko{color:var(--fail)}
 .rep-list{margin:0;padding-left:18px;font-size:12px;color:var(--dim)}
 .rep-list b{color:var(--ink)}
 .btn.warn{background:var(--warn);color:var(--night);box-shadow:none}
+.top .name .ver{font:400 11px/1 var(--display);color:var(--lantern);opacity:.7;margin-left:6px;vertical-align:super;letter-spacing:.04em}
